@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { useMusic } from "./MusicContext";
 import { X } from "lucide-react";
+import { TitleProps } from "./weddingPhotos";
 
 const chunkArray = <T,>(array: T[], size: number): T[][] => {
   return Array.from({ length: Math.ceil(array.length / size) }, (_, index) =>
@@ -114,7 +115,7 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.3 }}
                         onClick={() => {
-                          setFullScreenImage(photo);
+                          setFullScreenImage(photo as keyof TitleProps);
                           setCurrentImageIndex(allImages.indexOf(photo));
                         }}
                       >
@@ -163,7 +164,7 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
             &#10094;
           </button>
           <motion.img
-            src={fullScreenImage}
+            src={fullScreenImage ?? ""}
             alt="Fullscreen"
             className="max-w-full max-h-full"
             initial={{ scale: 0.8 }}
@@ -171,6 +172,7 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
             exit={{ scale: 0.8 }}
             transition={{ duration: 0.5 }}
           />
+
           <button
             className="absolute right-5 text-black text-6xl hover:cursor-pointer"
             onClick={handleNextImage}

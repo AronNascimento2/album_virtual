@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./home";
-import { weddingPhotos } from "./weddingPhotos";
+import { TitleProps, weddingPhotos } from "./weddingPhotos";
 import { SectionPage } from "./sectionPage";
 import { MusicProvider } from "./MusicContext";
 import { Navbar } from "./Navbar";
@@ -17,7 +17,12 @@ const App = () => {
               <Route
                 key={section}
                 path={`/${section}`}
-                element={<SectionPage section={section} photos={photos} />}
+                element={
+                  <SectionPage
+                    section={section as keyof TitleProps}
+                    photos={photos}
+                  />
+                }
               />
             ))}
           </Routes>
