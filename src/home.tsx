@@ -89,8 +89,8 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
           <motion.div
             key={section}
             id={section}
-            className="mb-12 p-6 rounded-lg shadow-lg bg-white bg-opacity-80"
-            initial={{ opacity: 0, y: 50 }}
+            className="mb-12 p-6 rounded-xl shadow-lg bg-white bg-opacity-80"
+            initial={{ opacity: 0.5, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
@@ -102,6 +102,7 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
               modules={[Navigation]}
               spaceBetween={10}
               slidesPerView={1}
+              lazyPreloadPrevNext={1}
               className="w-[1200px] h-[800px] mx-auto"
             >
               {groupedPhotos.map((group, index) => (
