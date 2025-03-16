@@ -1,18 +1,24 @@
-interface weddingPhotosProps {
+interface WeddingPhotosProps {
   cerimonia: string[];
   decoracao: string[];
   makingOfNoiva: string[];
   makingOfNoivo: string[];
   recepcao: string[];
 }
-
+export interface TitleProps {
+  cerimonia: string;
+  decoracao: string;
+  makingOfNoiva: string;
+  makingOfNoivo: string;
+  recepcao: string;
+}
 const generateImagePaths = (folder, prefix, start, end) =>
   Array.from(
     { length: end - start + 1 },
     (_, i) => `/casamento1/${folder}/${prefix}${start + i}.jpg`
   );
 
-export const weddingPhotos: weddingPhotosProps = {
+export const weddingPhotos: WeddingPhotosProps = {
   cerimonia: generateImagePaths("CERIMÔNIA OFICIAL", "HF_-", 2, 576),
   decoracao: generateImagePaths("DECORAÇÃO OFICIAL", "HF_-", 2, 49),
   makingOfNoiva: generateImagePaths("MAKING OF NOIVA OFICIAL", "HF_-", 2, 196),
@@ -24,7 +30,7 @@ export const weddingPhotos: weddingPhotosProps = {
   ),
   recepcao: generateImagePaths("RECEPÇÃO OFICIAL", "HF_-", 2, 243),
 };
-export const sectionTitles = {
+export const sectionTitles: TitleProps = {
   cerimonia: "Cerimônia",
   decoracao: "Decoração",
   makingOfNoiva: "Making of Noiva",
@@ -32,7 +38,7 @@ export const sectionTitles = {
   recepcao: "Recepção",
 };
 
-export const sectionPastes = {
+export const sectionPastes: TitleProps = {
   cerimonia: "CERIMÔNIA OFICIAL",
   decoracao: "DECORAÇÃO OFICIAL",
   makingOfNoiva: "MAKING OF NOIVA OFICIAL",

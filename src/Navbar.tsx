@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { weddingPhotos, sectionTitles } from "./weddingPhotos";
+import { weddingPhotos, sectionTitles, TitleProps } from "./weddingPhotos";
 
 export const Navbar = () => {
   const location = useLocation();
@@ -14,21 +14,23 @@ export const Navbar = () => {
       >
         Home
       </Link>
-      {Object.keys(weddingPhotos).map((section) => {
-        const isActive = location.pathname.startsWith(`/${section}`);
+      {(Object.keys(weddingPhotos) as Array<keyof TitleProps>).map(
+        (section) => {
+          const isActive = location.pathname.startsWith(`/${section}`);
 
-        return (
-          <Link
-            key={section}
-            to={`/${section}`}
-            className={`text-lg font-semibold capitalize hover:text-blue-500 ${
-              isActive ? "text-blue-500 font-bold" : ""
-            }`}
-          >
-            {sectionTitles[section]}
-          </Link>
-        );
-      })}
+          return (
+            <Link
+              key={section}
+              to={`/${section}`}
+              className={`text-lg font-semibold capitalize hover:text-blue-500 ${
+                isActive ? "text-blue-500 font-bold" : ""
+              }`}
+            >
+              {sectionTitles[section]}
+            </Link>
+          );
+        }
+      )}
     </nav>
   );
 };
