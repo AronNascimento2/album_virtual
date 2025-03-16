@@ -8,7 +8,7 @@ export const Navbar = () => {
     <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-50 p-4 flex justify-center gap-4 md:gap-8">
       <Link
         to="/"
-        className={`text-lg font-semibold capitalize hover:text-blue-500 ${
+        className={`text-[12px] font-semibold capitalize hover:text-blue-500 ${
           location.pathname === "/" ? "text-blue-500 font-bold" : ""
         }`}
       >
@@ -22,7 +22,7 @@ export const Navbar = () => {
             <Link
               key={section}
               to={`/${section}`}
-              className={`text-lg font-semibold capitalize hover:text-blue-500 ${
+              className={`text-[12px]  font-semibold capitalize hover:text-blue-500 ${
                 isActive ? "text-blue-500 font-bold" : ""
               }`}
             >

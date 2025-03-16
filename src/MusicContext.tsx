@@ -57,21 +57,29 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const audio = audioRef.current;
-    audio.src = tracks[currentTrack];
-    audio.volume = volume;
+
+    // Atualizar apenas a trilha sonora quando `currentTrack` mudar
+    if (audio.src !== tracks[currentTrack]) {
+      audio.src = tracks[currentTrack];
+
+      // Se não estiver pausado no sessionStorage, tocar automaticamente
+      if (isPlaying && hasInteracted) {
+        audio.play().catch(() => {});
+      }
+    }
 
     const handleEnded = () => changeTrack(1);
     audio.addEventListener("ended", handleEnded);
 
-    // Se a música não estiver pausada no sessionStorage, tocar automaticamente após interação
-    if (isPlaying && hasInteracted) {
-      audio.play().catch(() => {});
-    }
-
     return () => {
       audio.removeEventListener("ended", handleEnded);
     };
-  }, [currentTrack, volume, isPlaying, hasInteracted]);
+  }, [currentTrack, isPlaying, hasInteracted]);
+
+  // Atualizar apenas o volume sem modificar a música
+  useEffect(() => {
+    audioRef.current.volume = volume;
+  }, [volume]);
 
   const handleUserInteraction = () => {
     if (!hasInteracted) {
@@ -135,49 +143,59 @@ const MusicPlayer: React.FC = () => {
   } = useMusic();
 
   return (
-    <div className="fixed bottom-4 right-4 flex items-center space-x-3 bg-black/80 p-3 rounded-full shadow-lg">
+    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-center bg-black/80 p-3 rounded-full shadow-lg space-y-2">
       <button
         className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
         onClick={() => changeTrack(-1)}
       >
-        <SkipBack color="white" size={24} />
+        <SkipBack color="white" size={10} />
       </button>
       <button
         className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
         onClick={togglePlayPause}
       >
         {isPlaying ? (
-          <Pause color="white" size={24} />
+          <Pause color="white" size={10} />
         ) : (
-          <Play color="white" size={24} />
+          <Play color="white" size={10} />
         )}
       </button>
       <button
         className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
         onClick={() => changeTrack(1)}
       >
-        <SkipForward color="white" size={24} />
+        <SkipForward color="white" size={10} />
       </button>
-      <button onClick={() => setVolume(volume > 0 ? 0 : 1)}>
+      <button
+        className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
+        onClick={() => setVolume(volume > 0 ? 0 : 1)}
+      >
         {volume > 0 ? (
-          <Volume2 color="white" size={24} />
+          <Volume2 color="white" size={10} />
         ) : (
-          <VolumeX color="white" size={24} />
+          <VolumeX color="white" size={10} />
         )}
       </button>
-      <input
-        type="range"
-        min="0"
-        max="1"
-        step="0.01"
-        value={volume}
-        onChange={(e) => {
-          const newVolume = parseFloat(e.target.value);
-          setVolume(newVolume);
-          audioRef.current.volume = newVolume;
-        }}
-        className="w-24"
-      />
+      <div className="flex flex-col items-center w-8 h-24 justify-center">
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value={volume}
+          onChange={(e) => {
+            const newVolume = parseFloat(e.target.value);
+            setVolume(newVolume);
+            audioRef.current.volume = newVolume;
+          }}
+          className="w-24 h-1 rotate-[90deg] appearance-none bg-gray-300 rounded-lg"
+          style={{
+            background: `linear-gradient(to right, white ${
+              volume * 100
+            }%, #ccc ${volume * 100}%)`,
+          }}
+        />
+      </div>
     </div>
   );
 };
