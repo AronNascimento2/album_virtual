@@ -1,26 +1,44 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { sectionPastes, sectionTitles } from "./weddingPhotos";
+import { sectionPastes, sectionTitles, TitleProps } from "./weddingPhotos";
 
-export const backgroundImages = {
-  cerimonia: "HF_-70.jpg", // Escolha a imagem para cada seção
+interface BackgroundImagesProp {
+  cerimonia: string;
+  decoracao: string;
+  makingOfNoiva: string;
+  makingOfNoivo: string;
+  recepcao: string;
+}
+
+export const backgroundImages: BackgroundImagesProp = {
+  cerimonia: "HF_-70.jpg",
   decoracao: "HF_-3.jpg",
   makingOfNoiva: "HF_-20.jpg",
   makingOfNoivo: "HF_-8.jpg",
   recepcao: "HF_-233.jpg",
 };
+type SectionKeys = keyof typeof sectionTitles;
 
+interface SectionPageProps {
+  section: SectionKeys;
+  photos: string[];
+}
+export const SectionPage: React.FC<SectionPageProps> = ({
+  section,
+  photos,
+}) => {
+  const backgroundImageFile =
+    backgroundImages[section as keyof BackgroundImagesProp] || "HF_-2.jpg";
+  const backgroundImageUrl = `casamento1/${
+    sectionPastes[section as keyof TitleProps]
+  }/${backgroundImageFile}`;
+  const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
 
-export const SectionPage = ({ section, photos }) => {
-    const backgroundImageFile = backgroundImages[section] || "HF_-2.jpg";
-    const backgroundImageUrl = `casamento1/${sectionPastes[section]}/${backgroundImageFile}`;
-    console.log(backgroundImageUrl);
-  const [fullScreenImage, setFullScreenImage] = useState(null);
-  const formatSectionName = (section) =>
+  const formatSectionName = (section: string) =>
     section.replace(/([A-Z])/g, " $1").trim();
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setFullScreenImage(null);
       }
@@ -39,7 +57,7 @@ export const SectionPage = ({ section, photos }) => {
         }}
       ></div>
       <h1 className="text-3xl font-bold text-center mb-6">
-        {formatSectionName(sectionTitles[section])}
+        {formatSectionName(sectionTitles[section as keyof TitleProps])}
       </h1>
       <div className="grid grid-cols-3 gap-4">
         {photos.map((photo, i) => (
