@@ -125,7 +125,7 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
                           </div>
                         )}
                         <img
-                          // src={photo}
+                          src={String(photo)}
                           alt={`${section} ${i + 1}`}
                           className="w-full h-full object-cover rounded-xl"
                           onLoad={() => handleImageLoad(`${index}-${i}`)}
