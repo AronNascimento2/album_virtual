@@ -44,7 +44,7 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(
     sessionStorage.getItem("musicPaused") !== "true"
   );
-  const [volume, setVolume] = useState<number>(0.3);
+  const [volume, setVolume] = useState<number>(0.1);
   const [currentTrack, setCurrentTrack] = useState<number>(0);
   const [hasInteracted, setHasInteracted] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement>(new Audio());
