@@ -12,12 +12,16 @@ export interface TitleProps {
   makingOfNoivo: string;
   recepcao: string;
 }
-const generateImagePaths = (folder, prefix, start, end) =>
+const generateImagePaths = (
+  folder: string,
+  prefix: string,
+  start: number,
+  end: number
+): string[] =>
   Array.from(
     { length: end - start + 1 },
     (_, i) => `/casamento1/${folder}/${prefix}${start + i}.jpg`
   );
-
 export const weddingPhotos: WeddingPhotosProps = {
   cerimonia: generateImagePaths("CERIMÔNIA OFICIAL", "HF_-", 2, 576),
   decoracao: generateImagePaths("DECORAÇÃO OFICIAL", "HF_-", 2, 49),

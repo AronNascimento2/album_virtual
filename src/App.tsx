@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./home";
-import { Navbar } from "./NavBar";
 import { weddingPhotos } from "./weddingPhotos";
 import { SectionPage } from "./sectionPage";
 import { MusicProvider } from "./MusicContext";
+import { Navbar } from "./Navbar";
 
 const App = () => {
   return (
