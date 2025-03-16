@@ -111,7 +111,7 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
                         }}
                       >
                         <img
-                          src={photo}
+                          src={String(photo)}
                           alt={`${section} ${i + 1}`}
                           className="w-full h-full object-cover rounded-xl"
                           loading="lazy"
