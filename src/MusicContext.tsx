@@ -135,18 +135,35 @@ const MusicPlayer: React.FC = () => {
   } = useMusic();
 
   return (
-    <div className="fixed bottom-4 right-4 flex items-center space-x-3 bg-white p-3 rounded-lg shadow-lg">
-      <button onClick={() => changeTrack(-1)}>
-        <SkipBack size={24} />
+    <div className="fixed bottom-4 right-4 flex items-center space-x-3 bg-black/80 p-3 rounded-full shadow-lg">
+      <button
+        className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
+        onClick={() => changeTrack(-1)}
+      >
+        <SkipBack color="white" size={24} />
       </button>
-      <button onClick={togglePlayPause}>
-        {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+      <button
+        className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
+        onClick={togglePlayPause}
+      >
+        {isPlaying ? (
+          <Pause color="white" size={24} />
+        ) : (
+          <Play color="white" size={24} />
+        )}
       </button>
-      <button onClick={() => changeTrack(1)}>
-        <SkipForward size={24} />
+      <button
+        className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
+        onClick={() => changeTrack(1)}
+      >
+        <SkipForward color="white" size={24} />
       </button>
       <button onClick={() => setVolume(volume > 0 ? 0 : 1)}>
-        {volume > 0 ? <Volume2 size={24} /> : <VolumeX size={24} />}
+        {volume > 0 ? (
+          <Volume2 color="white" size={24} />
+        ) : (
+          <VolumeX color="white" size={24} />
+        )}
       </button>
       <input
         type="range"
