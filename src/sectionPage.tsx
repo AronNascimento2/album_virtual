@@ -1,22 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { sectionPastes, sectionTitles, TitleProps } from "./weddingPhotos";
+import { sectionPastes, sectionTitles } from "./weddingPhotos";
+import { FullScreenImage } from "./FullScreenImage";
+import { backgroundImages, BackgroundImagesProps } from "./backGroundImages";
 
-interface BackgroundImagesProp {
-  cerimonia: string;
-  decoracao: string;
-  makingOfNoiva: string;
-  makingOfNoivo: string;
-  recepcao: string;
-}
-
-export const backgroundImages: BackgroundImagesProp = {
-  cerimonia: "HF_-70.jpg",
-  decoracao: "HF_-3.jpg",
-  makingOfNoiva: "HF_-20.jpg",
-  makingOfNoivo: "HF_-8.jpg",
-  recepcao: "HF_-233.jpg",
-};
 type SectionKeys = keyof typeof sectionTitles;
 
 interface SectionPageProps {
@@ -24,15 +11,16 @@ interface SectionPageProps {
   photos: string[];
 }
 const SectionPage: React.FC<SectionPageProps> = ({ section, photos }) => {
-  const backgroundImageFile =
-    backgroundImages[section as keyof BackgroundImagesProp] || "HF_-2.jpg";
-  const backgroundImageUrl = `casamento1/${
-    sectionPastes[section as keyof TitleProps]
-  }/${backgroundImageFile}`;
-  const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
-
+  const allImages = useMemo(() => Object.values(photos).flat(), [photos]);
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const formatSectionName = (section: string) =>
     section.replace(/([A-Z])/g, " $1").trim();
+
+  const backgroundImageFile =
+    backgroundImages[section as keyof BackgroundImagesProps] ||
+    "Imagem nao encontrada";
+  const backgroundImageUrl = `casamento1/${sectionPastes[section]}/${backgroundImageFile}`;
+  const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -54,7 +42,7 @@ const SectionPage: React.FC<SectionPageProps> = ({ section, photos }) => {
         }}
       ></div>
       <h1 className="text-3xl font-bold text-center mb-6">
-        {formatSectionName(sectionTitles[section as keyof TitleProps])}
+        {formatSectionName(sectionTitles[section])}
       </h1>
       <div className="grid grid-cols-3 gap-4">
         {photos.map((photo, i) => (
@@ -73,18 +61,13 @@ const SectionPage: React.FC<SectionPageProps> = ({ section, photos }) => {
           </motion.div>
         ))}
       </div>
-      {fullScreenImage && (
-        <div
-          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center z-50"
-          onClick={() => setFullScreenImage(null)}
-        >
-          <img
-            src={fullScreenImage}
-            alt="Fullscreen"
-            className="max-w-full max-h-full"
-          />
-        </div>
-      )}
+      <FullScreenImage
+        allImages={allImages}
+        currentImageIndex={currentImageIndex}
+        fullScreenImage={fullScreenImage}
+        setCurrentImageIndex={setCurrentImageIndex}
+        setFullScreenImage={setFullScreenImage}
+      />
     </div>
   );
 };
