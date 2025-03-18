@@ -143,59 +143,57 @@ const MusicPlayer: React.FC = () => {
   } = useMusic();
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-center bg-black/80 p-3 rounded-full shadow-lg space-y-2">
+    <div className="fixed sm:top-3 sm:left-[94%] top-5 left-42 transform -translate-x-1/2 z-50 flex items-center bg-black/80 px-2 py-1 rounded-full shadow-lg space-x-1 ">
       <button
-        className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
+        className="flex items-center justify-center rounded-full p-1 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
         onClick={() => changeTrack(-1)}
       >
-        <SkipBack color="white" size={10} />
+        <SkipBack color="white" size={12} />
       </button>
       <button
-        className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
+        className="flex items-center justify-center rounded-full p-1 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
         onClick={togglePlayPause}
       >
         {isPlaying ? (
-          <Pause color="white" size={10} />
+          <Pause color="white" size={12} />
         ) : (
-          <Play color="white" size={10} />
+          <Play color="white" size={12} />
         )}
       </button>
       <button
-        className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
+        className="flex items-center justify-center rounded-full p-1 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
         onClick={() => changeTrack(1)}
       >
-        <SkipForward color="white" size={10} />
+        <SkipForward color="white" size={12} />
       </button>
       <button
-        className="bg-black flex items-center justify-center rounded-full p-2 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
+        className="flex items-center justify-center rounded-full p-1 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
         onClick={() => setVolume(volume > 0 ? 0 : 1)}
       >
         {volume > 0 ? (
-          <Volume2 color="white" size={10} />
+          <Volume2 color="white" size={12} />
         ) : (
-          <VolumeX color="white" size={10} />
+          <VolumeX color="white" size={12} />
         )}
       </button>
-      <div className="flex flex-col items-center w-8 h-24 justify-center">
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={(e) => {
-            const newVolume = parseFloat(e.target.value);
-            setVolume(newVolume);
-            audioRef.current.volume = newVolume;
-          }}
-          className="w-24 h-1 rotate-[90deg] appearance-none bg-gray-300 rounded-lg"
-          style={{
-            background: `linear-gradient(to right, white ${
-              volume * 100
-            }%, #ccc ${volume * 100}%)`,
-          }}
-        />
-      </div>
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value={volume}
+        onChange={(e) => {
+          const newVolume = parseFloat(e.target.value);
+          setVolume(newVolume);
+          audioRef.current.volume = newVolume;
+        }}
+        className="w-14 sm:w-20 h-1 appearance-none bg-gray-300 rounded-lg"
+        style={{
+          background: `linear-gradient(to right, white ${volume * 100}%, #ccc ${
+            volume * 100
+          }%)`,
+        }}
+      />
     </div>
   );
 };

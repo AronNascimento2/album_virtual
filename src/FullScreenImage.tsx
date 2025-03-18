@@ -51,19 +51,13 @@ export const FullScreenImage: React.FC<FullScreenImageProps> = ({
           onClick={() => setFullScreenImage(null)}
         >
           <button
-            className="hover:cursor-pointer absolute top-5 right-5 text-black  text-4xl font-bold hover:text-gray-700 active:text-gray-900 hover:scale-110 active:scale-90"
+            className="hover:cursor-pointer absolute  top-5 sm:top-14 right-5 text-black  text-4xl font-bold hover:text-gray-700 active:text-gray-900 hover:scale-110 active:scale-90"
             onClick={() => setFullScreenImage(null)}
           >
             <X size={30} />
           </button>
 
-          <button
-            className="hover:cursor-pointer absolute sm:left-5 left-3 sm:text-black text-blue-500 sm:text-6xl text-4xl transition-all duration-200 
-                      hover:text-gray-700 active:text-gray-900 hover:scale-110 active:scale-90"
-            onClick={handlePrevImage}
-          >
-            &#10094;
-          </button>
+          <button className=" swiper-button-prev" onClick={handlePrevImage} />
 
           <motion.img
             src={fullScreenImage}
@@ -76,13 +70,7 @@ export const FullScreenImage: React.FC<FullScreenImageProps> = ({
           />
 
           {/* Botão Próximo */}
-          <button
-            className="hover:cursor-pointer absolute right-3 sm:right-5 sm:text-black text-blue-500 sm:text-6xl text-4xl transition-all duration-200 
-                      hover:text-gray-700 active:text-gray-900 hover:scale-110 active:scale-90"
-            onClick={handleNextImage}
-          >
-            &#10095;
-          </button>
+          <button className=" swiper-button-next" onClick={handleNextImage} />
         </motion.div>
       )}
     </>
