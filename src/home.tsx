@@ -5,23 +5,15 @@ import "swiper/swiper-bundle.css";
 import { Navigation } from "swiper/modules";
 import { useMusic } from "./MusicContext";
 import { X } from "lucide-react";
-import { TitleProps } from "./weddingPhotos";
+import { sectionTitles, TitleProps, WeddingPhotosProps } from "./weddingPhotos";
 
 const chunkArray = <T,>(array: T[], size: number): T[][] =>
   Array.from({ length: Math.ceil(array.length / size) }, (_, index) =>
     array.slice(index * size, index * size + size)
   );
 
-interface WeddingPhotos {
-  cerimonia: string[];
-  decoracao: string[];
-  makingOfNoiva: string[];
-  makingOfNoivo: string[];
-  recepcao: string[];
-}
-
 interface HomeProps {
-  weddingPhotos: WeddingPhotos;
+  weddingPhotos: WeddingPhotosProps;
 }
 
 const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
@@ -61,7 +53,6 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
       className="container mx-auto p-4 max-w-7xl relative"
       onClick={handleUserInteraction}
     >
-      {/* Fundo fixo otimizado */}
       <div
         className="fixed inset-0 bg-cover bg-center z-[-1] opacity-50"
         style={{
@@ -70,12 +61,10 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
         }}
       ></div>
 
-      {/* Título com menos animação */}
       <h1 className="text-[100px] font-bold text-center mb-8 text-black">
         Aron e Índira
       </h1>
 
-      {/* Seções de Fotos */}
       {Object.entries(weddingPhotos).map(([section, photos]) => {
         const groupedPhotos = chunkArray(photos, 6);
         return (
@@ -85,7 +74,7 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
             className="mb-12 p-6 rounded-xl shadow-lg bg-white bg-opacity-80"
           >
             <h2 className="text-3xl font-semibold capitalize mb-6 text-center">
-              {section.replace(/([A-Z])/g, " $1")}
+              {sectionTitles[section as keyof TitleProps]}
             </h2>
 
             <Swiper

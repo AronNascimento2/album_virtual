@@ -23,10 +23,7 @@ interface SectionPageProps {
   section: SectionKeys;
   photos: string[];
 }
-export const SectionPage: React.FC<SectionPageProps> = ({
-  section,
-  photos,
-}) => {
+const SectionPage: React.FC<SectionPageProps> = ({ section, photos }) => {
   const backgroundImageFile =
     backgroundImages[section as keyof BackgroundImagesProp] || "HF_-2.jpg";
   const backgroundImageUrl = `casamento1/${
@@ -91,3 +88,4 @@ export const SectionPage: React.FC<SectionPageProps> = ({
     </div>
   );
 };
+export default SectionPage;

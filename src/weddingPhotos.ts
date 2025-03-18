@@ -1,4 +1,4 @@
-interface WeddingPhotosProps {
+export interface WeddingPhotosProps {
   cerimonia: string[];
   decoracao: string[];
   makingOfNoiva: string[];
