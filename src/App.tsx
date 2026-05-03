@@ -12,11 +12,19 @@ const App = () => {
       <Router>
         <Navbar />
 
-        <div className="pt-16">
+        <div>
           <Suspense
             fallback={
-              <div className="flex items-center justify-center">
-                Carregando...
+              <div className="fixed inset-0 flex items-center justify-center bg-[#f7f1ea] z-50">
+                <div className="flex flex-col items-center gap-4">
+                  {/* Spinner */}
+                  <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#2f241d] border-t-transparent" />
+
+                  {/* Texto */}
+                  <p className="text-sm font-medium text-[#6f625a]">
+                    Carregando...
+                  </p>
+                </div>
               </div>
             }
           >

@@ -1,7 +1,5 @@
 @import "tailwindcss";
 body {
-  font-family: "Arizonia", cursive;
-
   .swiper-button-next,
   .swiper-button-prev {
     color: white !important;
@@ -9,6 +7,8 @@ body {
     border-radius: 50%;
     width: 60px;
     height: 60px;
+    margin: 0;
+    padding: 0;
   }
 
   .swiper-button-next:hover,
@@ -23,6 +23,9 @@ body {
   }
 }
 
-nav {
+#root {
   font-family: "Poppins", sans-serif;
+}
+* {
+  box-sizing: border-box;
 }

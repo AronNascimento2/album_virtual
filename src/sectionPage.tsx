@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { sectionPastes, sectionTitles } from "./weddingPhotos";
+import { sectionTitles } from "./weddingPhotos";
 import { FullScreenImage } from "./FullScreenImage";
-import { backgroundImages, BackgroundImagesProps } from "./backGroundImages";
 
 type SectionKeys = keyof typeof sectionTitles;
 
@@ -16,10 +15,6 @@ const SectionPage: React.FC<SectionPageProps> = ({ section, photos }) => {
   const formatSectionName = (section: string) =>
     section.replace(/([A-Z])/g, " $1").trim();
 
-  const backgroundImageFile =
-    backgroundImages[section as keyof BackgroundImagesProps] ||
-    "Imagem nao encontrada";
-  const backgroundImageUrl = `casamento1/${sectionPastes[section]}/${backgroundImageFile}`;
   const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -34,13 +29,6 @@ const SectionPage: React.FC<SectionPageProps> = ({ section, photos }) => {
 
   return (
     <div className="container mx-auto p-4 max-w-7xl">
-      <div
-        className="fixed inset-0 bg-cover bg-center z-[-1] opacity-50"
-        style={{
-          backgroundImage: `url('${backgroundImageUrl}')`,
-          backgroundAttachment: "fixed",
-        }}
-      ></div>
       <h1 className="text-3xl font-bold text-center mb-6">
         {formatSectionName(sectionTitles[section])}
       </h1>

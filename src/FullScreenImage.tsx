@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useCallback } from "react";
 
 interface FullScreenImageProps {
@@ -17,62 +17,78 @@ export const FullScreenImage: React.FC<FullScreenImageProps> = ({
   setFullScreenImage,
   allImages,
 }) => {
-  const handleNextImage = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
-      setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
-      setFullScreenImage(allImages[(currentImageIndex + 1) % allImages.length]);
+  const goToImage = useCallback(
+    (index: number) => {
+      const nextIndex = (index + allImages.length) % allImages.length;
+      setCurrentImageIndex(nextIndex);
+      setFullScreenImage(allImages[nextIndex]);
     },
-    [allImages, currentImageIndex, setCurrentImageIndex, setFullScreenImage]
+    [allImages, setCurrentImageIndex, setFullScreenImage],
   );
 
-  const handlePrevImage = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
-      setCurrentImageIndex(
-        (prev) => (prev - 1 + allImages.length) % allImages.length
-      );
-      setFullScreenImage(
-        allImages[(currentImageIndex - 1 + allImages.length) % allImages.length]
-      );
-    },
-    [allImages, currentImageIndex, setCurrentImageIndex, setFullScreenImage]
-  );
+  const handleNextImage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    goToImage(currentImageIndex + 1);
+  };
+
+  const handlePrevImage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    goToImage(currentImageIndex - 1);
+  };
 
   return (
-    <>
+    <AnimatePresence>
       {fullScreenImage && (
         <motion.div
-          className="fixed top-0 left-0 w-full h-full bg-white bg-opacity-80 flex items-center justify-center z-50"
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 px-4 py-6 backdrop-blur-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
           onClick={() => setFullScreenImage(null)}
         >
           <button
-            className="hover:cursor-pointer absolute  top-5 sm:top-14 right-5 text-black  text-4xl font-bold hover:text-gray-700 active:text-gray-900 hover:scale-110 active:scale-90"
-            onClick={() => setFullScreenImage(null)}
+            type="button"
+            className="absolute right-5 top-5 z-10 rounded-full bg-white/10 p-3 text-white backdrop-blur transition hover:bg-white/20"
+            onClick={(e) => {
+              e.stopPropagation();
+              setFullScreenImage(null);
+            }}
           >
-            <X size={30} />
+            <X size={24} />
           </button>
 
-          <button className=" swiper-button-prev" onClick={handlePrevImage} />
+          <button
+            type="button"
+            onClick={handlePrevImage}
+            className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur transition hover:bg-white/20"
+          >
+            <ChevronLeft size={32} />
+          </button>
 
           <motion.img
             src={fullScreenImage}
-            alt="Fullscreen"
-            className="max-w-full max-h-full"
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0.8 }}
-            transition={{ duration: 0.5 }}
+            alt="Imagem em tela cheia"
+            className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain shadow-2xl"
+            initial={{ scale: 0.92, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.92, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={(e) => e.stopPropagation()}
           />
 
-          {/* Botão Próximo */}
-          <button className=" swiper-button-next" onClick={handleNextImage} />
+          <button
+            type="button"
+            onClick={handleNextImage}
+            className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white backdrop-blur transition hover:bg-white/20"
+          >
+            <ChevronRight size={32} />
+          </button>
+
+          <div className="absolute bottom-5 rounded-full bg-white/10 px-4 py-2 text-sm text-white backdrop-blur">
+            {currentImageIndex + 1} / {allImages.length}
+          </div>
         </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 };

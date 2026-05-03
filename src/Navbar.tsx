@@ -7,79 +7,89 @@ export const Navbar = () => {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
 
+  const navItems = [
+    { label: "Home", path: "/" },
+    ...(Object.keys(weddingPhotos) as Array<keyof TitleProps>).map(
+      (section) => ({
+        label: sectionTitles[section],
+        path: `/${section}`,
+      }),
+    ),
+  ];
+
   return (
-    <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-50 p-4">
-      {/* Menu para telas grandes */}
-      <div className="hidden md:flex justify-center gap-8">
-        <Link
-          to="/"
-          className={`text-[12px] font-semibold capitalize hover:text-blue-500 ${
-            location.pathname === "/" ? "text-blue-500 font-bold" : ""
-          }`}
-        >
-          Home
+    <header className="fixed left-0 top-0 z-50 w-full px-4 py-4">
+      <nav className="relative mx-auto flex max-w-6xl items-center rounded-full border border-white/60 bg-white/75 px-5 py-3 shadow-lg backdrop-blur-md">
+        {/* Logo (esquerda fixa) */}
+        <Link to="/" className="font-serif text-xl font-bold text-[#2f241d]">
+          A & I
         </Link>
-        {(Object.keys(weddingPhotos) as Array<keyof TitleProps>).map(
-          (section) => {
-            const isActive = location.pathname.startsWith(`/${section}`);
+
+        {/* MENU CENTRALIZADO */}
+        <div className="absolute left-1/2 hidden w-max max-w-[calc(100%-140px)] -translate-x-1/2 items-center gap-2 overflow-x-auto whitespace-nowrap md:flex">
+          {" "}
+          {navItems.map((item) => {
+            const isActive =
+              item.path === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(item.path);
 
             return (
               <Link
-                key={section}
-                to={`/${section}`}
-                className={`text-[12px] font-semibold capitalize hover:text-blue-500 ${
-                  isActive ? "text-blue-500 font-bold" : ""
+                key={item.path}
+                to={item.path}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                  isActive
+                    ? "bg-[#2f241d] text-white"
+                    : "text-[#6f625a] hover:bg-[#efe2d8] hover:text-[#2f241d]"
                 }`}
               >
-                {sectionTitles[section]}
+                {item.label}
               </Link>
             );
-          }
-        )}
-      </div>
+          })}
+        </div>
 
-      {/* Botão do menu hambúrguer para telas pequenas */}
-      <div className="md:hidden flex justify-between items-center">
-        <button onClick={toggleMenu} className="text-gray-700">
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Menu hambúrguer (aparece quando menuOpen é true) */}
-      {menuOpen && (
-        <div className="md:hidden absolute top-14 left-0 w-full bg-white shadow-md flex flex-col items-center p-4 gap-4">
-          <Link
-            to="/"
-            className={`text-[14px] font-semibold capitalize hover:text-blue-500 ${
-              location.pathname === "/" ? "text-blue-500 font-bold" : ""
-            }`}
-            onClick={closeMenu}
+        {/* Botão mobile (direita) */}
+        <div className="ml-auto md:hidden">
+          <button
+            type="button"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="rounded-full bg-[#efe2d8] p-2 text-[#2f241d]"
           >
-            Home
-          </Link>
-          {(Object.keys(weddingPhotos) as Array<keyof TitleProps>).map(
-            (section) => {
-              const isActive = location.pathname.startsWith(`/${section}`);
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </nav>
 
-              return (
-                <Link
-                  key={section}
-                  to={`/${section}`}
-                  className={`text-[14px] font-semibold capitalize hover:text-blue-500 ${
-                    isActive ? "text-blue-500 font-bold" : ""
-                  }`}
-                  onClick={closeMenu}
-                >
-                  {sectionTitles[section]}
-                </Link>
-              );
-            }
-          )}
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="mx-auto mt-3 flex max-w-6xl flex-col gap-2 rounded-3xl border border-white/60 bg-white/90 p-4 shadow-xl backdrop-blur-md md:hidden">
+          {navItems.map((item) => {
+            const isActive =
+              item.path === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(item.path);
+
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={closeMenu}
+                className={`rounded-2xl px-4 py-3 text-sm font-semibold transition ${
+                  isActive
+                    ? "bg-[#2f241d] text-white"
+                    : "text-[#6f625a] hover:bg-[#efe2d8]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
       )}
-    </nav>
+    </header>
   );
 };
