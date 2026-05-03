@@ -116,7 +116,7 @@ const Home: React.FC<HomeProps> = ({ weddingPhotos }) => {
 
                           <div className="absolute bottom-4 left-4 right-4">
                             <p className="text-sm font-medium text-white/90">
-                              Álbum {index + 1}
+                              Foto {index + 1}
                             </p>
                             <p className="text-xs text-white/70">
                               Clique para visualizar
